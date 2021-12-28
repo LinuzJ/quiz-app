@@ -11,11 +11,12 @@ PASSWORDWSD =
 OR
 
 you input the database data manually in the file database/database.js.
+Also go into the database/database.js file and make sure you setup according to the instructions there.
 
-Test can be run with the command deno test --allow-net --unstable after the database has been configured
+Test can be run with the command "deno test --allow-net --unstable" after the database has been configured
 
 After configuring the database the app can be run locally with the command:
-deno run --allow-net --allow-read --allow-env --allow-write --unstable run-locally.js
+"deno run --allow-net --allow-read --allow-env --allow-write --unstable run-locally.js"
 
 The working demo can be found at https://quiz-app--demo.herokuapp.com/!
 

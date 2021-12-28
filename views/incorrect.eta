@@ -15,6 +15,6 @@
     <% };%>
 
     <form method="GET" action="/quiz">
-        <button type="submit" class="btn btn-outline-dark">Next Question!</button>
+        <button type="submit" class="btn btn-outline-dark">Next question</button>
     </form>
 </div>

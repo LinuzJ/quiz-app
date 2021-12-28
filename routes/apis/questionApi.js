@@ -18,7 +18,11 @@ const getRandom = async ({ response }) => {
 };
 
 const postAnswer = async ({ request, response }) => {
-  const body = request.body({ type: "json" });
+  try {
+    const body = request.body({ type: "json" });
+  } catch {
+    response.body = { error: "Wrong structure in post!" };
+  }
   const { questionId, optionId } = await body.value;
 
   // Return error message if wrong structure
@@ -26,7 +30,7 @@ const postAnswer = async ({ request, response }) => {
     response.body = { error: "Wrong structure in post!" };
     return;
   }
-  const correct = await optionService.getCorrectOption(questionId);
+  const correct = (await optionService.getCorrectOption(questionId))[0];
 
   // Check if there is a correct answer
   if (!correct || !correct.is_correct) {
