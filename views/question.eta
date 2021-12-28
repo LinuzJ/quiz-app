@@ -1,0 +1,82 @@
+<% layout("./layouts/layout.eta") %>
+
+<style>
+.main {
+  margin-top: 3rem;
+}
+.main-more {
+  margin-top: 5rem;
+}
+</style>
+
+<div class="main">
+    <form method="GET" action="/questions">
+        <button type="submit" class="btn btn-outline-dark">Go back</button>
+    </form>
+
+    <% if (it.validationErrors) { %>
+        <h3>Validation errors!</h3>
+        <ul>
+            <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+                <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+                    <li><%= err %></li>
+                <% }); %>
+            <% }); %>
+        </ul>
+    <% } else {%>
+    <div class="main">
+        <h1>
+            <%= it.question.title %>
+        </h1>
+        <p><%= it.question.question_text %></p>
+    </div>
+    <% };%>
+    <div class="main">
+        <h2>Add options:</h2>
+
+        <form method="POST" action="/questions/<%= it.question.id %>/options">
+        <div class="form-group">
+            <label for="option_1">Option</label>
+            <textarea name="option_text" class="form-control" id="option_1" ><%= it.option_text ? it.option_text : "" %></textarea>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Correct?</label>
+        </div>
+        <button type="submit" class="btn btn-dark">Add</button>
+        </form>
+    </div>
+
+
+    <% if (it.options.length > 0) { %>
+            <div class="main-more">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Option</th>
+                            <th scope="col">Is Correct?</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% it.options.forEach((option) => { %>
+                        <tr class="<%= option.is_correct ? "table-success" : "table-light" %>">
+                            <td><%= option.option_text %></td>
+                            <td><%= option.is_correct ? "Yes" : "No" %></td>
+                            <td>
+                                <form method="POST" action="/questions/<%= it.question.id %>/options/<%= option.id %>/delete">
+                                    <button type="submit" class="btn btn-outline-danger">Delete option</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); %>
+                    </tbody>
+                </table>
+            </div>
+    <% } else { %>
+        <h2>There are no answer options..</h2>
+            <form method="POST" action="/questions/<%= it.question.id %>/delete">
+                <input type="submit" value="Delete question"/>
+            </form>
+    <% }; %>
+</div>

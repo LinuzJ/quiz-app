@@ -1,0 +1,51 @@
+<% layout("./layouts/layout.eta") %>
+<style>
+.main {
+  margin-top: 10rem;
+}
+.main-chill {
+  margin-top: 2rem;
+}
+.header {
+    font-size: 100px;
+}
+</style>
+
+<div class="d-flex flex-column justify-content-around main align-items-cente">
+    <p class="header align-self-center">Welcome</p>
+    <div class="align-items-cente">
+     <div class="row justify-content-around">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h4 class="card-title">If you are new here:</h4>
+                    <div class="row justify-content-around">
+                        <a href="/auth/register" class="btn btn-outline-dark">Register</a>
+                        <a href="/auth/login" class="btn btn-outline-dark">Login</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h4 class="card-title">Explore the questions!</h4>
+                    <div class="row justify-content-around">
+                        <a href="/questions" class="btn btn-outline-dark">Add questions</a>
+                        <a href="/quiz" class="btn btn-outline-dark">Quiz</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-around main-chill">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h4 class="card-title">Explore your statistics</h4>
+                    <div class="row justify-content-around">
+                        <a href="/statistics" class="btn btn-outline-dark">Statistics</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+
+</div>

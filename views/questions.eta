@@ -1,0 +1,59 @@
+<% layout("./layouts/layout.eta") %>
+<style>
+.main {
+  margin-top: 3rem;
+}
+</style>
+
+<div class="main">
+    <form method="GET" action="/">
+        <button type="submit" class="btn btn-outline-dark">Go back</button>
+    </form>
+
+    <h1>Add a question!</h1>
+
+    <% if (it.validationErrors) { %>
+        <h3>Validation errors!</h3>
+        <ul>
+            <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+                <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+                    <li><%= err %></li>
+                <% }); %>
+            <% }); %>
+        </ul>
+    <% } %>
+
+    <form method="POST" action="/questions">
+        <div class="form-group">
+            <label for="title_1">Title</label>
+            <input type="text" class="form-control" id="title_1" aria-describedby="title" placeholder="Enter title" name="title" value="<%= it.title ? it.title : "" %>"/>
+        </div>
+        <div class="form-group">
+            <label for="question_1">Question</label>
+            <textarea name="question_text" class="form-control" id="question_1" ><%= it.question_text ? it.question_text : "" %></textarea>
+        </div>
+        <button type="submit" class="btn btn-dark">Add</button>
+    </form>
+
+    <% if (it.questions) {%>
+        <div class="main">
+            <h2>Your questions!</h2>
+            <ul class="list-group list-group-flush">
+                <% it.questions.forEach((question) => {%>
+                    <li class="list-group-item align-items-center">
+                        <div class="row justify-content-md-around">
+                            <strong><%= question.title %></strong><br/>
+                            <p><%= question.question_text %></p>
+                            <form method="GET" action=<%= "/questions/" + question.id %>>
+                                <button type="submit" class="btn btn-outline-dark">View</button>
+                            </form>
+                            <form method="POST" action="/questions/<%= question.id%>/delete">
+                                <button type="submit" class="btn btn-outline-danger">Delete</button>
+                            </form>
+                        </div>
+                    </li>
+                <%});%>
+            </ul>
+        </div>
+    <% }; %>
+</div>

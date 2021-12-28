@@ -1,0 +1,17 @@
+<% layout("./layouts/layout.eta") %>
+
+<style>
+.main {
+  margin-top: 20%;
+}
+</style>
+
+<div class="main">
+    <h1>Incorrect!</h1>
+
+    <p>The correct option was <strong><%= it.correct%></strong></p>
+
+    <form method="GET" action="/quiz">
+        <button type="submit" class="btn btn-outline-dark">Next Question!</button>
+    </form>
+</div>

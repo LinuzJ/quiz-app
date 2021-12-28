@@ -1,0 +1,42 @@
+<% layout("./layouts/layout.eta") %>
+<style>
+.main {
+  margin-top: 20%;
+}
+</style>
+
+<div class="main">
+    <% if (it.question) {%>
+        <h2><%= it.question.title %></h2>
+        <% if (it.options) {%>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Choose the option you think is correct!</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% it.options.forEach((option) => { %>
+                    <tr>
+                        <td><%= option.option_text %></td>
+                        <td>
+                            <form method="POST" action="/quiz/<%= it.question.id %>/options/<%= option.id %>">
+                                <button type="submit" class="btn btn-outline-success">Choose</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+                </tbody>
+            </table>
+        <%} else {%>
+            <h3>There are no options added yet!</h3>
+        <%};%>
+    <%} else {%>
+        <h2>There are no questions added yet!</h2>
+    <%};%>
+    
+    <form method="GET" action="/quiz">
+        <button type="submit" class="btn btn-outline-dark">Next Question!</button>
+    </form>
+</div>

@@ -1,0 +1,78 @@
+<% layout("./layouts/layout.eta") %>
+<style>
+.main {
+  margin-top: 3rem;
+}
+</style>
+<div class="d-flex flex-column justify-content-around main">
+    <% if (it.numOfAns && it.numOfCorAns) { %>
+        <div class="row justify-content-around">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h4 class="card-title">You have guesssed..</h4>
+                    <h2 class="card-text"><strong><%= it.numOfAns %></strong> times!</h2>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h4 class="card-title">You have guesssed correctly..</h4>
+                    <h2 class="card-text"><strong><%= it.numOfCorAns %></strong> times!</h2>
+                </div>
+            </div>
+        </div>
+    <% } else { %>
+        <div class="row justify-content-around">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h4 class="card-title">You have no guessses..</h4>
+                    <a href="/quiz" class="btn btn-outline-dark">Go guess!</a>
+                </div>
+            </div>
+        </div>
+    <% };%>
+
+    <div class="row justify-content-around main">
+        <% if (it.numOfAnsPerQ) {%>
+            <div class="column">
+                <h3>Your questions!</h3>
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Question</th>
+                            <th scope="col">Number of guesses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% it.numOfAnsPerQ.forEach((x) => { %>
+                        <tr>
+                            <td><%= x.title %></td>
+                            <td><%= Number(x.count) %></td>
+                        </tr>
+                    <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        <% }; %>
+        <div class="column">
+            <h3>Top guessers!</h2>
+
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Email</th>
+                        <th scope="col">Number of guesses</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% it.topFive.forEach((x) => { %>
+                    <tr>
+                        <td><%= x.email %></td>
+                        <td><%= Number(x.count) %></td>
+                    </tr>
+                <% }); %>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
