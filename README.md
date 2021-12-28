@@ -1,23 +1,66 @@
-Multiple choice, quiz app.
+# Multiple choice quiz app
 
-To run locally:
-Either create .env file and enter the following data into it:
+DEMO: https://quiz-app--demo.herokuapp.com/
 
-HOSTNAMEWSD =
-DATABASEWSD =
-USERNAMEWSD =
-PASSWORDWSD =
+## Directory structure
 
-OR
+```
+.
+├── database
+│   └── database.js
+├── middlewares
+│   ├── authMiddleware.js
+│   ├── errorMiddleware.js
+│   ├── serveStaticMiddleware.js
+│   └── renderMiddleware.js
+├── routes
+│   ├── apis
+│   │   └── questionApi.js
+│   ├── controllers
+│   │   ├── loginController.js
+│   │   ├── mainController.js
+│   │   ├── optionController.js
+│   │   ├── questionController.js
+│   │   ├── quizController.js
+│   │   ├── registerController.js
+│   │   └── statisticsController.js
+│   └── routes.js
+├── services
+│   ├── answerService.js
+│   ├── authService.js
+│   ├── optionService.js
+│   ├── questionService.js
+│   └── quizService.js
+├── tests
+│   └── main_tests.js
+├── views
+│   ├── layouts
+│   │   └── layout.eta
+│   ├── partials
+│   │   └── navbar.eta
+│   ├── correct.eta
+│   ├── incorrect.eta
+│   ├── login.eta
+│   ├── main.eta
+│   ├── question.eta
+│   ├── questions.eta
+│   ├── quiz.eta
+│   ├── registration.eta
+│   └── stats.eta
+├── app.js
+├── deps.js
+├── heroku-deploy.js
+├── Procfile
+├── README.md
+└── run-locally.js
+```
 
-you input the database data manually in the file database/database.js.
-Also go into the database/database.js file and make sure you setup according to the instructions there.
-
-Test can be run with the command "deno test --allow-net --unstable" after the database has been configured
+## To run locally
 
 After configuring the database the app can be run locally with the command:
-"deno run --allow-net --allow-read --allow-env --allow-write --unstable run-locally.js"
 
-The working demo can be found at https://quiz-app--demo.herokuapp.com/!
+```
+deno run --allow-net --allow-read --allow-env --allow-write --unstable run-locally.js
+```
 
 Enjoy!
