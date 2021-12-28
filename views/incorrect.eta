@@ -8,8 +8,11 @@
 
 <div class="main">
     <h1>Incorrect!</h1>
-
-    <p>The correct option was <strong><%= it.correct%></strong></p>
+    <% if (it.correct.option_text) {%>
+      <p>The correct option was <strong><%= it.correct.option_text%></strong></p>
+    <% } else {%>
+      <p>There is no correct answer to this question</p>
+    <% };%>
 
     <form method="GET" action="/quiz">
         <button type="submit" class="btn btn-outline-dark">Next Question!</button>

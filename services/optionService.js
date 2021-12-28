@@ -35,10 +35,14 @@ const getCorrectOption = async (question_id) => {
     question_id
   );
 
-  return resp.rows[0];
+  return resp.rows;
 };
 
 const deleteOption = async (optionId) => {
+  await executeQuery(
+    "DELETE FROM question_answers WHERE question_answer_option_id = $1",
+    optionId
+  );
   await executeQuery(
     "DELETE FROM question_answer_options WHERE id = $1",
     optionId

@@ -45,11 +45,14 @@ const handleAttempt = async ({ params, response, state }) => {
   );
 
   // Redirect depending on answer
-  if (option.is_correct) {
-    response.redirect(`/quiz/${question_id}/correct`);
-  } else {
-    response.redirect(`/quiz/${question_id}/incorrect`);
+  if (!option.is_correct) {
+    const path = "/quiz/" + question_id + "/incorrect";
+    response.redirect(path);
+    return;
   }
+
+  const path = "/quiz/" + question_id + "/correct";
+  response.redirect(path);
 };
 
 const getCorrect = async ({ render }) => {
@@ -58,7 +61,11 @@ const getCorrect = async ({ render }) => {
 
 const getIncorrect = async ({ render, params }) => {
   const option = await optionService.getCorrectOption(params.id);
-  render("incorrect.eta", { correct: option.option_text });
+  if (option.length === 0) {
+    render("incorrect.eta", { correct: option });
+  } else {
+    render("incorrect.eta", { correct: option[0] });
+  }
 };
 
 export { getQuiz, getSingleQuiz, handleAttempt, getCorrect, getIncorrect };

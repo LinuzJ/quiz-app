@@ -8,6 +8,7 @@
 <div class="main">
     <% if (it.question) {%>
         <h2><%= it.question.title %></h2>
+        <h3><%= it.question.question_text %></h3>
         <% if (it.options) {%>
             <table class="table table-hover">
                 <thead class="thead-dark">

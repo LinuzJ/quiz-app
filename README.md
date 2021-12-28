@@ -17,4 +17,6 @@ Test can be run with the command deno test --allow-net --unstable after the data
 After configuring the database the app can be run locally with the command:
 deno run --allow-net --allow-read --allow-env --allow-write --unstable run-locally.js
 
+The working demo can be found at https://quiz-app--demo.herokuapp.com/!
+
 Enjoy!
