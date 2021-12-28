@@ -3,43 +3,63 @@ import * as optionService from "../../services/optionService.js";
 
 const getRandom = async ({ response }) => {
   const question = await quizService.getRandomQuestion();
-  const options = await optionService.getOptions(question.id);
-  response.body = {
-    questionId: question.id,
-    questionTitle: question.title,
-    questionText: question.question_text,
-    answerOptions: options.map((option) => {
-      return {
-        optionId: option.id,
-        optionText: option.option_text,
-      };
-    }),
-  };
+  let options;
+  if (question && question.id) {
+    options = await optionService.getOptions(question.id);
+  } else {
+    response.body = {};
+    return;
+  }
+
+  if (question && options) {
+    response.body = {
+      questionId: question.id ? question.id : "",
+      questionTitle: question.title ? question.title : "",
+      questionText: question.question_text ? question.question_text : "",
+      answerOptions: options.map((option) => {
+        return {
+          optionId: option.id,
+          optionText: option.option_text,
+        };
+      }),
+    };
+  } else {
+    response.body = {};
+  }
 };
 
 const postAnswer = async ({ request, response }) => {
+  let body;
   try {
-    const body = request.body({ type: "json" });
+    body = request.body({ type: "json" });
   } catch {
-    response.body = { error: "Wrong structure in post!" };
+    response.body = { correct: "false" };
+    return;
   }
   const { questionId, optionId } = await body.value;
 
   // Return error message if wrong structure
   if (!questionId || !optionId) {
-    response.body = { error: "Wrong structure in post!" };
+    response.body = { correct: "false" };
     return;
   }
+
+  // Fetch correct answer
   const correct = (await optionService.getCorrectOption(questionId))[0];
 
   // Check if there is a correct answer
   if (!correct || !correct.is_correct) {
-    response.body = { error: "There is no correct answer for this question." };
+    response.body = { correct: "false" };
     return;
   }
 
   // return
-  response.body = { correct: correct.id === Number(optionId) };
+  if (correct.id && optionId) {
+    response.body = { correct: correct.id === Number(optionId) };
+    return;
+  }
+
+  response.body = { correct: "false" };
 };
 
 export { getRandom, postAnswer };
