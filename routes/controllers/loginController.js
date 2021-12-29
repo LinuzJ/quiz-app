@@ -1,17 +1,29 @@
 import * as authService from "../../services/authService.js";
 import { bcrypt } from "../../deps.js";
 
-const authLogin = async ({ request, response, state }) => {
+const authLogin = async ({ request, response, state, render }) => {
   // Get data from request
   const body = request.body({ type: "form" });
   const val = await body.value;
 
+  // Save data
+  const email = val.get("email");
+  const password = val.get("password");
+
   // Fetch user(s) from db with this email
-  const userFromDatabase = await authService.findUserByEmail(val.get("email"));
+  const userFromDatabase = await authService.findUserByEmail(email);
 
   // If there is none/more than one -> retry
   if (userFromDatabase.length != 1) {
-    response.redirect("/auth/login");
+    render("login.eta", {
+      validationErrors: {
+        errors: {
+          email: "The email is incorrect",
+        },
+      },
+      email: email,
+      password: password,
+    });
     return;
   }
 
@@ -19,14 +31,19 @@ const authLogin = async ({ request, response, state }) => {
   const user = userFromDatabase[0];
 
   // Check password
-  const passwordMatches = await bcrypt.compare(
-    val.get("password"),
-    user.password
-  );
+  const passwordMatches = await bcrypt.compare(password, user.password);
 
   // If incorrect password
   if (!passwordMatches) {
-    response.redirect("/auth/login");
+    render("login.eta", {
+      validationErrors: {
+        errors: {
+          password: "The password is incorrect",
+        },
+      },
+      email: email,
+      password: password,
+    });
     return;
   }
 

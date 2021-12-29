@@ -6,6 +6,7 @@ import { validasaur } from "../../deps.js";
 const userValidationRules = {
   email: [validasaur.required, validasaur.isEmail],
   password: [validasaur.required, validasaur.minLength(4)],
+  "A new email": [validasaur.required, validasaur.notNull],
 };
 
 const getUserData = async (request) => {
@@ -15,11 +16,18 @@ const getUserData = async (request) => {
   return {
     email: val.get("email"),
     password: val.get("password"),
+    "A new email": "pass",
   };
 };
 
 const addUser = async ({ request, response, render }) => {
   const usrData = await getUserData(request);
+
+  const userCheck = await authService.findUserByEmail(usrData.email);
+
+  if (userCheck.length !== 0) {
+    usrData["A new email"] = null;
+  }
 
   const [passes, errors] = await validasaur.validate(
     usrData,
